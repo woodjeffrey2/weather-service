@@ -24,18 +24,11 @@ func TestFetchOWCurrent(t *testing.T) {
 			lon: 23.46,
 			mockRespBody: []byte(`
 			{
-				"coord": {
-					"lon": 1.53,
-					"lat": 23.46
-				},
 				"weather": [
 					{
-						"id": 501,
-						"main": "Rain",
 						"description": "moderate rain"
 					}
 				],
-				"base": "stations",
 				"main": {
 					"temp": 298.48
 				}
@@ -45,7 +38,6 @@ func TestFetchOWCurrent(t *testing.T) {
 			expectedResp: owCurrentResponse{
 				Weather: []owWeather{
 					{
-						Main:        "Rain",
 						Description: "moderate rain",
 					},
 				},
@@ -53,6 +45,13 @@ func TestFetchOWCurrent(t *testing.T) {
 					Temp: 298.48,
 				},
 			},
+		},
+		"Given invalid response from the API expect to return error": {
+			lat:          1.53,
+			lon:          23.46,
+			mockRespBody: []byte(`{"error": "something went wrong"}`),
+			mockStatus:   http.StatusInternalServerError,
+			expectedErr:  "openweather api returned an invalid response. Status code: 500 Response: {\"error\": \"something went wrong\"}",
 		},
 	}
 	for _, tc := range myTests {

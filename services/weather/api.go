@@ -3,6 +3,7 @@ package weather
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"net/url"
 	"os"
@@ -22,7 +23,6 @@ type owCurrentResponse struct {
 	Main    owMain      `json:"main"`
 }
 type owWeather struct {
-	Main        string `json:"main"`
 	Description string `json:"description"`
 }
 type owMain struct {
@@ -59,11 +59,22 @@ func (w *service) fetchOWCurrent(lat, lon float64) (owCurrentResponse, error) {
 		return owCurrent, fmt.Errorf("executing http request: %w", err)
 	}
 
-	// unmarshal API response body to struct
-	decoder := json.NewDecoder(resp.Body)
-	err = decoder.Decode(&owCurrent)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return owCurrent, fmt.Errorf("decoding response: %w", err)
+		return owCurrent, fmt.Errorf("reading response body: %w", err)
+	}
+
+	// check for valid response
+	if resp.StatusCode != http.StatusOK {
+		return owCurrent, fmt.Errorf("openweather api returned an invalid response. Status code: %d Response: %s", resp.StatusCode, body)
+	}
+
+	// unmarshal API response body to struct
+	// decoder := json.NewDecoder(resp.Body)
+	// err = decoder.Decode(&owCurrent)
+	err = json.Unmarshal(body, &owCurrent)
+	if err != nil {
+		return owCurrent, fmt.Errorf("unmarshaling response: %w", err)
 	}
 	return owCurrent, nil
 }
