@@ -1,14 +1,9 @@
 package weather
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/woodjeffrey2/weather-service/models"
-)
-
-var (
-	ErrNoReport = errors.New("no weather report")
 )
 
 // describeTemp returns a string description of "hot", "moderate", or "cold"
