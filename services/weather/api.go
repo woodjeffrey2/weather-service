@@ -11,9 +11,8 @@ import (
 )
 
 const (
-	DEFAULT_BASE_URL = "https://api.openweathermap.org"
-	OW_CURRENT_PATH  = "/data/2.5/weather"
-	OW_API_KEY_VAR   = "OW_API_KEY"
+	OW_CURRENT_PATH = "/data/2.5/weather"
+	OW_API_KEY_VAR  = "OW_API_KEY"
 )
 
 // owCurrentResponse API response struct for OpenWeather current endpoint
@@ -70,8 +69,6 @@ func (w *service) fetchOWCurrent(lat, lon float64) (owCurrentResponse, error) {
 	}
 
 	// unmarshal API response body to struct
-	// decoder := json.NewDecoder(resp.Body)
-	// err = decoder.Decode(&owCurrent)
 	err = json.Unmarshal(body, &owCurrent)
 	if err != nil {
 		return owCurrent, fmt.Errorf("unmarshaling response: %w", err)

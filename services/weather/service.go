@@ -16,6 +16,6 @@ type service struct {
 func NewService(cli *http.Client, baseURL string) services.WeatherService {
 	return &service{
 		client:    cli,
-		owBaseUrl: DEFAULT_BASE_URL,
+		owBaseUrl: baseURL,
 	}
 }
