@@ -2,9 +2,11 @@ package report
 
 import (
 	"errors"
+	"log/slog"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -99,7 +101,10 @@ func TestWeatherReportHandler(t *testing.T) {
 			mService.On("GetCurrentWeather", tc.getWeatherResp.Latitude, tc.getWeatherResp.Longitude).
 				Return(tc.getWeatherResp, tc.getWeatherErr)
 		}
-		weatherHandler := reportHandler{weather: mService}
+		weatherHandler := reportHandler{
+			log:     slog.New(slog.NewJSONHandler(os.Stdout, nil)),
+			weather: mService,
+		}
 
 		req, err := http.NewRequest("GET", "/weather-service", nil)
 		require.NoError(t, err)

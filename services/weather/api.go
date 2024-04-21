@@ -52,7 +52,12 @@ func (w *service) fetchOWCurrent(lat, lon float64) (owCurrentResponse, error) {
 	q.Add("units", "imperial")
 	req.URL.RawQuery = q.Encode()
 
-	// execute http request
+	w.log.Info("calling OpenWeather API",
+		"path", req.URL.Path,
+		"method", req.Method,
+		"lat", lat,
+		"lon", lon,
+	)
 	resp, err := w.client.Do(req)
 	if err != nil {
 		return owCurrent, fmt.Errorf("executing http request: %w", err)
@@ -62,6 +67,7 @@ func (w *service) fetchOWCurrent(lat, lon float64) (owCurrentResponse, error) {
 	if err != nil {
 		return owCurrent, fmt.Errorf("reading response body: %w", err)
 	}
+	w.log.Info("api response", "body", string(body), "status", resp.StatusCode)
 
 	// check for valid response
 	if resp.StatusCode != http.StatusOK {

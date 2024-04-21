@@ -1,6 +1,7 @@
 package weather
 
 import (
+	"log/slog"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -67,6 +68,7 @@ func TestFetchOWCurrent(t *testing.T) {
 		defer server.Close()
 
 		s := service{
+			log:       slog.New(slog.NewJSONHandler(os.Stdout, nil)),
 			client:    &http.Client{},
 			owBaseUrl: server.URL,
 		}
