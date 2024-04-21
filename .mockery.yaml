@@ -1,0 +1,12 @@
+with-expecter: true
+outpkg: mocks
+packages:
+    github.com/woodjeffrey2/weather-service/services:
+        config:
+        interfaces:
+          WeatherService:
+    github.com/woodjeffrey2/weather-service/handlers:
+      config:
+      interfaces:
+        WeatherReportHandler:
+
