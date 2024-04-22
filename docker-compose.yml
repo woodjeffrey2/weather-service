@@ -1,0 +1,13 @@
+---
+services:
+  weather-api:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/app
+    environment:
+      OW_API_KEY: ${OW_API_KEY}
+...
