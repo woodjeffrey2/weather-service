@@ -4,6 +4,7 @@ Simple Golang API service for fetching a summary of the current weather for a gi
 ## Requirements
 * Golang >= 1.22.2 - [https://go.dev/doc/install](https://go.dev/doc/install)
 * Mockery >= 2.42.3 - [https://vektra.github.io/mockery/latest/installation/](https://vektra.github.io/mockery/latest/installation/)
+* OpenWeather API Key - [https://openweathermap.org/faq](https://openweathermap.org/faq)
 
 ## Setup
 Set the OpenWeather API key env var:
@@ -31,7 +32,7 @@ This service was created as a coding exercise and is a MVP for an API server wit
 
 ### API
 #### Get Weather Report
-Returns a summary report of the weather conditions and temperature for a given location.
+Calls the [OpenWeather API](https://openweathermap.org/current) and returns a summary report of the weather conditions and temperature for a given location.
 
 Example - `GET http://localhost:8080/weather-report?lat=12.34&lon=56.78`
 
@@ -39,7 +40,7 @@ Query Params
 * `lat` - latitude of the location for the weather report (Default: 0)
 * `lon` - longitude of the location for the weather report (Default: 0)
 
-Example Response
+Example Response (200 status)
 ```json
 {
   "data":{
