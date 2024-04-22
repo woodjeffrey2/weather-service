@@ -1,5 +1,5 @@
 
-.PHONY: test build run
+.PHONY: test build run mocks
 test:
 	go test ./...
 
@@ -8,3 +8,6 @@ build:
 
 run:
 	go run src/server/main.go
+
+mocks:
+	mockery
