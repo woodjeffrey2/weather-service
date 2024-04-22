@@ -1,5 +1,5 @@
 
-.PHONY: test build run mocks
+.PHONY: test build run run-docker mocks
 test:
 	go test ./...
 
@@ -8,6 +8,9 @@ build:
 
 run:
 	go run src/server/main.go
+
+run-docker:
+	docker compose up
 
 mocks:
 	mockery

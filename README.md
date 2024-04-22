@@ -2,30 +2,43 @@
 Simple Golang API service for fetching a summary of the current weather for a given latitude and longitude
 
 ## Requirements
-* Golang >= 1.22.2 - [https://go.dev/doc/install](https://go.dev/doc/install)
-* Mockery >= 2.42.3 - [https://vektra.github.io/mockery/latest/installation/](https://vektra.github.io/mockery/latest/installation/)
-* OpenWeather API Key - [https://openweathermap.org/faq](https://openweathermap.org/faq)
+### Running the Server
+* Golang >= 1.22.2 or Docker / Rancher Desktop
+  * [https://go.dev/doc/install](https://go.dev/doc/install)
+  * [https://docs.docker.com/desktop/install/mac-install/](https://docs.docker.com/desktop/install/mac-install/)
+* OpenWeather API Key -
+  * [https://openweathermap.org/faq](https://openweathermap.org/faq)
 
-## Setup
+### Development
+* Mockery >= 2.42.3 -
+  * [https://vektra.github.io/mockery/latest/installation/](https://vektra.github.io/mockery/latest/installation/)
+
+## Local Setup
 Set the OpenWeather API key env var:
 ```sh
 % export OW_API_KEY=<your API key>
 ```
-Start the local API server:
+Run the API server locally:
 ```sh
+% go mod download
 % make run
+```
+Or spin up a local Docker container:
+```sh
+% make run-docker
 ```
 Make a request to the local `GET /weather-report` endpoint:
 ```sh
 % curl -G -d 'lat=12.34' -d 'lon=56.78' http://localhost:8080/weather-report
 ```
 ## Commands
-| Command       | Description              |
-| ------------- | ------------------------ |
-| `make test`   | Run unit tests           |
-| `make build`  | Compile binary           |
-| `make run`    | Run server locally       |
-| `make mocks`  | Generate interface mocks |
+| Command           | Description              |
+| ----------------- | ------------------------ |
+| `make test`       | Run unit tests           |
+| `make build`      | Compile binary           |
+| `make run`        | Run server locally       |
+| `make run-docker` | Run server with Docker   |
+| `make mocks`      | Generate interface mocks |
 
 ## Design
 This service was created as a coding exercise and is a MVP for an API server with 1 endpoint.
@@ -70,11 +83,10 @@ Since the Services layer has no dependencies on the Golang http server implement
 We're starting off with a simple MVP that can be compiled and run locally for the purposes of the coding exercise.
 
 There are some improvements and modifications that would be at the top of my list to build out on a production service:
-* Add `Docker` and `Docker Compose` setup for running the http server locally
-* Run unit tests in `Github Actions` CI
-* Add test coverage calculation and thresholds in Gihub Actions CI
-* Add an AWS Lambda + API Gateway API implementation using CDK
-* Automate deployments to AWS cloud with CDK Lambda + API Gateway implementation
+* Add unit tests to `Github Actions` CI
+* Add test coverage and PR thresholds in `Gihub Actions` CI
 * Add APM and automated alerting
 * Create a wrapper / Handler implementation for the structured logger
-* Add ephemeral stack creation in Github Actions CI for integration testing changes in the AWS cloud
+* Add an `AWS Lambda` + `API Gateway` API implementation using `CDK` for IaC
+* Automate deployments to AWS cloud with `Github Actions`
+* Add ephemeral stack creation in `Github Actions` for integration testing changes in the AWS cloud
