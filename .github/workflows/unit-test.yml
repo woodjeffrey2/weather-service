@@ -1,0 +1,25 @@
+name: Unit Tests
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Go 1.22.2
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.22.2'
+
+      - name: Download Dependencies
+        run: go mod download
+
+      - name: Build Binary
+        run: make build
+
+      - name: Run Unit Tests
+        run: make test
