@@ -64,7 +64,7 @@ Mocks for each interface are generated using the `mockery` library and ensure th
 
 This loose coupling also makes it much simpler to make changes like swapping the entire Golang http server implementation with an implementation that uses API Gateway + Lambda to serve http requests instead.
 
-Since the Services layer has no dependencies on the Golang http server implementation, that interface and service implementation could be reused for a completely different server architecture without requiring any modifications.
+Since the Services layer has no dependencies on the Golang http server implementation, the interface, implementation, and business logic could be reused with a completely different service architecture without requiring any modifications.
 
 ### Next Steps
 We're starting off with a simple MVP that can be compiled and run locally for the purposes of the coding exercise.
