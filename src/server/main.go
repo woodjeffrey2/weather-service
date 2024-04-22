@@ -6,6 +6,7 @@ import (
 	"log/slog"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/woodjeffrey2/weather-service/handlers"
 	"github.com/woodjeffrey2/weather-service/handlers/report"
@@ -13,8 +14,9 @@ import (
 )
 
 const (
-	HTTP_PORT   = ":8080"
-	OW_BASE_URL = "https://api.openweathermap.org"
+	HTTP_PORT      = ":8080"
+	OW_BASE_URL    = "https://api.openweathermap.org"
+	CLIENT_TIMEOUT = 5
 )
 
 var (
@@ -25,7 +27,10 @@ var (
 func init() {
 	// inject dependencies and initialize the handler
 	logger = slog.New(slog.NewJSONHandler(os.Stdout, nil))
-	service := weather.NewService(logger, &http.Client{}, OW_BASE_URL)
+	client := &http.Client{
+		Timeout: CLIENT_TIMEOUT * time.Second,
+	}
+	service := weather.NewService(logger, client, OW_BASE_URL)
 	weatherHandler = report.NewHandler(logger, service)
 }
 

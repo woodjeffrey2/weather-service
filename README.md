@@ -1,6 +1,19 @@
 # weather-service
 Simple Golang API service for fetching a summary of the current weather for a given latitude and longitude
 
+- [weather-service](#weather-service)
+  - [Requirements](#requirements)
+    - [Running the Server](#running-the-server)
+    - [Development](#development)
+  - [Local Setup](#local-setup)
+  - [Commands](#commands)
+  - [Testing](#testing)
+  - [Design](#design)
+    - [API](#api)
+      - [Get Weather Report](#get-weather-report)
+    - [Service Architecture](#service-architecture)
+    - [Next Steps](#next-steps)
+
 ## Requirements
 ### Running the Server
 * Golang >= 1.22.2 or Docker / Rancher Desktop
@@ -40,8 +53,13 @@ Make a request to the local `GET /weather-report` endpoint:
 | `make run-docker` | Run server with Docker   |
 | `make mocks`      | Generate interface mocks |
 
+## Testing
+Unit tests can be run with the `make test` command locally.
+
+There is also a `Github Actions` workflow defined for the service that runs the tests on any code push. All unit tests must pass before PRs can be merged to `main`.
+
 ## Design
-This service was created as a coding exercise and is a MVP for an API server with 1 endpoint.
+This service was created as a coding exercise and is an MVP for an API server with a single endpoint.
 
 ### API
 #### Get Weather Report
