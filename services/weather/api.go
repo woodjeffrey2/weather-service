@@ -29,7 +29,7 @@ type owMain struct {
 }
 
 // fetchOWCurrent fetches the current weather from the OpenWeather API
-func (w *service) fetchOWCurrent(lat, lon float64) (owCurrentResponse, error) {
+func (w *weatherService) fetchOWCurrent(lat, lon float64) (owCurrentResponse, error) {
 	var owCurrent owCurrentResponse
 
 	path, err := url.JoinPath(w.owBaseUrl, OW_CURRENT_PATH)

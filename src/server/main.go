@@ -25,7 +25,7 @@ var (
 func init() {
 	logger = slog.New(slog.NewJSONHandler(os.Stdout, nil))
 	service := weather.NewService(logger, &http.Client{}, OW_BASE_URL)
-	weatherHandler = report.NewWeatherReportHandler(logger, service)
+	weatherHandler = report.NewHandler(logger, service)
 }
 
 func main() {

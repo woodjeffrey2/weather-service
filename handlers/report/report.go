@@ -3,34 +3,17 @@ package report
 import (
 	"encoding/json"
 	"fmt"
-	"log/slog"
 	"net/http"
 	"net/url"
 	"strconv"
 
-	"github.com/woodjeffrey2/weather-service/handlers"
 	"github.com/woodjeffrey2/weather-service/models"
-	"github.com/woodjeffrey2/weather-service/services"
 )
 
 const (
 	LAT_PARAM = "lat"
 	LON_PARAM = "lon"
 )
-
-// reportHandler implements WeatherReportHandler
-type reportHandler struct {
-	log     *slog.Logger
-	weather services.WeatherService
-}
-
-// NewWeatherReportHandler instantiates a new WeatherReportHandler implementation
-func NewWeatherReportHandler(l *slog.Logger, s services.WeatherService) handlers.WeatherReportHandler {
-	return &reportHandler{
-		log:     l,
-		weather: s,
-	}
-}
 
 // weatherReportResponse JSON response for GET /weather-report
 type weatherReportResponse struct {

@@ -20,7 +20,7 @@ func describeTemp(temp float64) string {
 }
 
 // GetCurrentWeather returns the current weather conditions for the provided coordinates
-func (s *service) GetCurrentWeather(lat, lon float64) (models.CurrentWeather, error) {
+func (s *weatherService) GetCurrentWeather(lat, lon float64) (models.CurrentWeather, error) {
 	report, err := s.fetchOWCurrent(lat, lon)
 	if err != nil {
 		return models.CurrentWeather{}, fmt.Errorf("fetching weather report: %w", err)

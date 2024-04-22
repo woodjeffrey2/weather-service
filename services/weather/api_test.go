@@ -67,7 +67,7 @@ func TestFetchOWCurrent(t *testing.T) {
 		}))
 		defer server.Close()
 
-		s := service{
+		s := weatherService{
 			log:       slog.New(slog.NewJSONHandler(os.Stdout, nil)),
 			client:    &http.Client{},
 			owBaseUrl: server.URL,
