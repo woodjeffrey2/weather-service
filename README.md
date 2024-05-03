@@ -75,10 +75,10 @@ Example Response (200 status)
 ```json
 {
   "data":{
-    "Latitude":12.34,
-    "Longitude":56.78,
-    "Condition":"scattered clouds",
-    "TempDescription":"hot"
+    "latitude": 12.34,
+    "longitude": 56.78,
+    "condition": "scattered clouds",
+    "temp_description": "hot"
   }
 }
 ```
