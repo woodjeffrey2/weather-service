@@ -41,6 +41,14 @@ func TestParseLatLon(t *testing.T) {
 			},
 			expectedErr: "parsing lat query param: strconv.ParseFloat: parsing \"Boston\": invalid syntax",
 		},
+		"Given key with no value expect no error": {
+			params: url.Values{
+				"lat": nil,
+				"lon": nil,
+			},
+			expectedLat: 0,
+			expectedLon: 0,
+		},
 	}
 	for _, tc := range myTests {
 		lat, lon, err := parseLatLon(tc.params)

@@ -75,13 +75,13 @@ func (h *reportHandler) getWeatherReport(w http.ResponseWriter, r *http.Request)
 
 // parseLatLon parses the lat and lon from request query params
 func parseLatLon(params url.Values) (lat float64, lon float64, err error) {
-	if lp, ok := params[LAT_PARAM]; ok {
+	if lp, ok := params[LAT_PARAM]; ok && len(lp) > 0 {
 		lat, err = strconv.ParseFloat(lp[0], 64)
 		if err != nil {
 			return lat, lon, fmt.Errorf("parsing lat query param: %w", err)
 		}
 	}
-	if lp, ok := params[LON_PARAM]; ok {
+	if lp, ok := params[LON_PARAM]; ok && len(lp) > 0 {
 		lon, err = strconv.ParseFloat(lp[0], 64)
 		if err != nil {
 			return lat, lon, fmt.Errorf("parsing lon query param: %w", err)
