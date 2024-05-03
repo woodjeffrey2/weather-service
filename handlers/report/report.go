@@ -15,9 +15,22 @@ const (
 	LON_PARAM = "lon"
 )
 
-// weatherReportResponse JSON response for GET /weather-report
+// weatherReportResponse JSON response for GET
 type weatherReportResponse struct {
-	Data models.CurrentWeather `json:"data"`
+	Data currentWeather `json:"data"`
+}
+
+// currentWeather JSON response for current weather summary
+type currentWeather struct {
+	Latitude        float64 `json:"latitude"`
+	Longitude       float64 `json:"longitude"`
+	Condition       string  `json:"condition"`
+	TempDescription string  `json:"temp_description"`
+}
+
+// FromModel converts a CurrentWeather model to the currentWeather presentataion struct
+func FromModel(model models.CurrentWeather) currentWeather {
+	return currentWeather(model)
 }
 
 // WeatherReportHandler handles requests to the /weather-report path
@@ -53,7 +66,7 @@ func (h *reportHandler) getWeatherReport(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	response := weatherReportResponse{Data: weather}
+	response := weatherReportResponse{Data: FromModel(weather)}
 	h.log.Info("report generated", "response", response)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)

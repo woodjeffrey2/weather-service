@@ -74,7 +74,7 @@ func TestWeatherReportHandler(t *testing.T) {
 				TempDescription: "cold",
 			},
 			expectedStatus: http.StatusOK,
-			expectedResp:   `{"data":{"Latitude":12.34,"Longitude":56.78,"Condition":"slightly cloudy","TempDescription":"cold"}}`,
+			expectedResp:   `{"data":{"latitude":12.34,"longitude":56.78,"condition":"slightly cloudy","temp_description":"cold"}}`,
 		},
 		"Given OpenWeather API error expect to return 500 response": {
 			latStr: "12.34",
