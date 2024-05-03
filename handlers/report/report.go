@@ -44,7 +44,7 @@ func (h *reportHandler) WeatherReportHandler(w http.ResponseWriter, r *http.Requ
 	case "GET":
 		h.getWeatherReport(w, r)
 	default:
-		http.Error(w, "Method %s not allowed", http.StatusMethodNotAllowed)
+		http.Error(w, fmt.Sprintf("Method %s not allowed", r.Method), http.StatusMethodNotAllowed)
 	}
 }
 
