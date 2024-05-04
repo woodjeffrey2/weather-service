@@ -41,6 +41,14 @@ func TestParseLatLon(t *testing.T) {
 			},
 			expectedErr: "parsing lat query param: strconv.ParseFloat: parsing \"Boston\": invalid syntax",
 		},
+		"Given key with no value expect no error": {
+			params: url.Values{
+				"lat": nil,
+				"lon": nil,
+			},
+			expectedLat: 0,
+			expectedLon: 0,
+		},
 	}
 	for _, tc := range myTests {
 		lat, lon, err := parseLatLon(tc.params)
@@ -58,6 +66,7 @@ func TestWeatherReportHandler(t *testing.T) {
 	var myTests = map[string]struct {
 		latStr         string
 		lonStr         string
+		method         string
 		getWeatherResp models.CurrentWeather
 		getWeatherErr  error
 		paramErr       bool
@@ -67,6 +76,7 @@ func TestWeatherReportHandler(t *testing.T) {
 		"Given valid request expect to return correct response": {
 			latStr: "12.34",
 			lonStr: "56.78",
+			method: "GET",
 			getWeatherResp: models.CurrentWeather{
 				Latitude:        12.34,
 				Longitude:       56.78,
@@ -74,11 +84,12 @@ func TestWeatherReportHandler(t *testing.T) {
 				TempDescription: "cold",
 			},
 			expectedStatus: http.StatusOK,
-			expectedResp:   `{"data":{"Latitude":12.34,"Longitude":56.78,"Condition":"slightly cloudy","TempDescription":"cold"}}`,
+			expectedResp:   `{"data":{"latitude":12.34,"longitude":56.78,"condition":"slightly cloudy","temp_description":"cold"}}`,
 		},
 		"Given OpenWeather API error expect to return 500 response": {
 			latStr: "12.34",
 			lonStr: "56.78",
+			method: "GET",
 			getWeatherResp: models.CurrentWeather{
 				Latitude:  12.34,
 				Longitude: 56.78,
@@ -91,13 +102,21 @@ func TestWeatherReportHandler(t *testing.T) {
 			latStr:         "notanumber",
 			lonStr:         "56.78",
 			paramErr:       true,
+			method:         "GET",
 			expectedStatus: http.StatusBadRequest,
 			expectedResp:   `parsing lat query param: strconv.ParseFloat: parsing "notanumber": invalid syntax`,
+		},
+		"Given invalid method expect to return 400 response": {
+			latStr:         "12.34",
+			lonStr:         "56.78",
+			method:         "POST",
+			expectedStatus: http.StatusMethodNotAllowed,
+			expectedResp:   `Method POST not allowed`,
 		},
 	}
 	for _, tc := range myTests {
 		mService := mocks.NewMockWeatherService(t)
-		if !tc.paramErr {
+		if !tc.paramErr && tc.method == "GET" {
 			mService.On("GetCurrentWeather", tc.getWeatherResp.Latitude, tc.getWeatherResp.Longitude).
 				Return(tc.getWeatherResp, tc.getWeatherErr)
 		}
@@ -106,7 +125,7 @@ func TestWeatherReportHandler(t *testing.T) {
 			weather: mService,
 		}
 
-		req, err := http.NewRequest("GET", "/weather-service", nil)
+		req, err := http.NewRequest(tc.method, "/weather-service", nil)
 		require.NoError(t, err)
 		q := req.URL.Query()
 		q.Add(LAT_PARAM, tc.latStr)

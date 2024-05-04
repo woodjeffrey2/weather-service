@@ -63,6 +63,7 @@ func (w *weatherService) fetchOWCurrent(lat, lon float64) (owCurrentResponse, er
 		return owCurrent, fmt.Errorf("executing http request: %w", err)
 	}
 
+	defer resp.Body.Close()
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return owCurrent, fmt.Errorf("reading response body: %w", err)

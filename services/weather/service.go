@@ -14,7 +14,7 @@ type weatherService struct {
 	owBaseUrl string
 }
 
-// make sure the interface is implemented by reportHandler
+// make sure the interface is implemented by weatherService
 var _ services.WeatherService = new(weatherService)
 
 // NewService instantiates a new WeatherService implementation
