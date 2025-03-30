@@ -1,15 +1,14 @@
 package main
 
 import (
-	"fmt"
-	"log"
 	"log/slog"
 	"net/http"
 	"os"
 	"time"
 
-	handlers "github.com/woodjeffrey2/weather-service/handlers/httphandlers"
-	"github.com/woodjeffrey2/weather-service/handlers/httphandlers/report"
+	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/woodjeffrey2/weather-service/handlers/lambdahandlers"
+	"github.com/woodjeffrey2/weather-service/handlers/lambdahandlers/report"
 	"github.com/woodjeffrey2/weather-service/services/weather"
 )
 
@@ -20,7 +19,7 @@ const (
 )
 
 var (
-	weatherHandler handlers.WeatherReportHandler
+	weatherHandler lambdahandlers.WeatherReportHandler
 	logger         *slog.Logger
 )
 
@@ -35,8 +34,5 @@ func init() {
 }
 
 func main() {
-	http.HandleFunc("/weather-report", weatherHandler.WeatherReportHandler)
-
-	logger.Info("Server is running.", "URL", fmt.Sprintf("http://localhost%s", HTTP_PORT))
-	log.Fatal(http.ListenAndServe(HTTP_PORT, nil))
+	lambda.Start(weatherHandler)
 }

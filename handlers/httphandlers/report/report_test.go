@@ -11,6 +11,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"github.com/woodjeffrey2/weather-service/handlers/presenters"
 	mocks "github.com/woodjeffrey2/weather-service/mocks/github.com/woodjeffrey2/weather-service/services"
 	"github.com/woodjeffrey2/weather-service/models"
 )
@@ -128,8 +129,8 @@ func TestWeatherReportHandler(t *testing.T) {
 		req, err := http.NewRequest(tc.method, "/weather-service", nil)
 		require.NoError(t, err)
 		q := req.URL.Query()
-		q.Add(LAT_PARAM, tc.latStr)
-		q.Add(LON_PARAM, tc.lonStr)
+		q.Add(presenters.LAT_PARAM, tc.latStr)
+		q.Add(presenters.LON_PARAM, tc.lonStr)
 		req.URL.RawQuery = q.Encode()
 
 		rr := httptest.NewRecorder()

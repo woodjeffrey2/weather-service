@@ -3,7 +3,7 @@ package report
 import (
 	"log/slog"
 
-	"github.com/woodjeffrey2/weather-service/handlers"
+	handlers "github.com/woodjeffrey2/weather-service/handlers/httphandlers"
 	"github.com/woodjeffrey2/weather-service/services"
 )
 

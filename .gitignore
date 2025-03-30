@@ -22,3 +22,7 @@ go.work
 
 # go binary directory
 bin/
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out

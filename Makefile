@@ -5,6 +5,7 @@ test:
 
 build:
 	go build -o bin/server src/server/main.go
+	go build -o bin/server src/lambda/main.go
 
 run:
 	go run src/server/main.go
