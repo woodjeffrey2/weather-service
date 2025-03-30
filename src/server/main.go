@@ -8,8 +8,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/woodjeffrey2/weather-service/handlers"
-	"github.com/woodjeffrey2/weather-service/handlers/report"
+	handlers "github.com/woodjeffrey2/weather-service/handlers/httphandlers"
+	"github.com/woodjeffrey2/weather-service/handlers/httphandlers/report"
 	"github.com/woodjeffrey2/weather-service/services/weather"
 )
 
